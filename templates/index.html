@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Need an Umbrella?</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script>
+        function fillSampleData() {
+            document.getElementById('MinTemp').value = 14.5;
+            document.getElementById('MaxTemp').value = 23.3;
+            document.getElementById('Rainfall').value = 2.4;
+            document.getElementById('WindGustSpeed').value = 35;
+            document.getElementById('WindSpeed9am').value = 15;
+            document.getElementById('WindSpeed3pm').value = 20;
+            document.getElementById('Humidity9am').value = 75;
+            document.getElementById('Humidity3pm').value = 65;
+            document.getElementById('Pressure9am').value = 1012;
+            document.getElementById('Pressure3pm').value = 1008;
+            document.getElementById('Temp9am').value = 16.7;
+            document.getElementById('Temp3pm').value = 22.0;
+            document.getElementById('RainToday').value = 1;
+        }
+    </script>
+</head>
+<body>
+    <h1>Will You Need an Umbrella?</h1>
+
+    <div class="container">
+        <div class="form-container">
+            <div id="title">
+                <h3>Enter Weather Data for Rain Prediction</h3>
+                <!-- <p><em>Sample Data: Min Temp: 14.5, Max Temp: 23.3, Rainfall: 2.4, Wind Gust Speed: 35, Wind Speed at 9am: 15, Wind Speed at 3pm: 20, Humidity at 9am: 75, Humidity at 3pm: 65, Pressure at 9am: 1012, Pressure at 3pm: 1008, Temperature at 9am: 16.7, Temperature at 3pm: 22.0, Rain Today: Yes</em></p> -->
+                <button onclick="fillSampleData()" id="Sample-data">Use Sample Data</button>
+                <br>
+            </div>
+
+            <form action="/predict" method="POST">
+                <div class="form-row">
+                    <div class="form-item">
+                        <label for="MinTemp">Min Temperature (°C):</label>
+                        <input type="number" id="MinTemp" name="MinTemp" step="0.1" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="MaxTemp">Max Temperature (°C):</label>
+                        <input type="number" id="MaxTemp" name="MaxTemp" step="0.1" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Rainfall">Rainfall (mm):</label>
+                        <input type="number" id="Rainfall" name="Rainfall" step="0.1" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label for="WindGustSpeed">Wind Gust Speed (km/h):</label>
+                        <input type="number" id="WindGustSpeed" name="WindGustSpeed" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="WindSpeed9am">Wind Speed at 9am (km/h):</label>
+                        <input type="number" id="WindSpeed9am" name="WindSpeed9am" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="WindSpeed3pm">Wind Speed at 3pm (km/h):</label>
+                        <input type="number" id="WindSpeed3pm" name="WindSpeed3pm" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label for="Humidity9am">Humidity at 9am (%):</label>
+                        <input type="number" id="Humidity9am" name="Humidity9am" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Humidity3pm">Humidity at 3pm (%):</label>
+                        <input type="number" id="Humidity3pm" name="Humidity3pm" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Pressure9am">Pressure at 9am (hPa):</label>
+                        <input type="number" id="Pressure9am" name="Pressure9am" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label for="Pressure3pm">Pressure at 3pm (hPa):</label>
+                        <input type="number" id="Pressure3pm" name="Pressure3pm" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Temp9am">Temperature at 9am (°C):</label>
+                        <input type="number" id="Temp9am" name="Temp9am" step="0.1" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Temp3pm">Temperature at 3pm (°C):</label>
+                        <input type="number" id="Temp3pm" name="Temp3pm" step="0.1" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-item">
+                        <label for="RainToday">Rain Today:</label>
+                        <select id="RainToday" name="RainToday" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit">Predict</button>
+            </form>
+        </div>
+        {% if prediction is not none %}
+        <div class="result">
+            <h3>Will you need an umbrella tomorrow?</h3>
+            <p><strong>{{ 'Yes' if prediction == 1 else 'No' if prediction == 0 else ' ' }}</strong></p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
